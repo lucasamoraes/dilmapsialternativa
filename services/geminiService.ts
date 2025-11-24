@@ -1,11 +1,14 @@
 import { GoogleGenAI } from "@google/genai";
 
 export const getSpiritualInsight = async (topic: string): Promise<string> => {
-  // Move apiKey retrieval inside the function to ensure it captures the key 
-  // if it was set/selected after the module loaded.
-  const apiKey = process.env.API_KEY;
+  // REMOVA ou COMENTE esta linha antiga:
+  // const apiKey = process.env.API_KEY; 
+
+  // ADICIONE esta linha correta para Vite:
+  const apiKey = import.meta.env.VITE_API_KEY;
 
   if (!apiKey) {
+    // O erro será lançado se a chave não for encontrada
     throw new Error("API_KEY_MISSING");
   }
 

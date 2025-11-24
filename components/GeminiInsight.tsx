@@ -8,31 +8,39 @@ const GeminiInsight: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [hasKey, setHasKey] = useState(false);
 
-  // Check for API Key availability on mount
+  // Verifica se a chave existe assim que a página carrega
   useEffect(() => {
-    const checkKey = async () => {
-      if ((window as any).aistudio && (window as any).aistudio.hasSelectedApiKey) {
-        const has = await (window as any).aistudio.hasSelectedApiKey();
-        setHasKey(has);
-      } else {
-        // Fallback: check if env var exists (for local dev or if not using aistudio wrapper)
-        setHasKey(!!process.env.API_KEY);
+    const checkKey = () => {
+      // 1. Tenta ver se a chave foi configurada no arquivo .env (Padrão Vite)
+      const envKey = import.meta.env.VITE_API_KEY;
+      
+      // 2. Tenta ver se a chave está no process (Legado)
+      const processKey = process.env.API_KEY;
+
+      // 3. Tenta ver se estamos no Google AI Studio (Ambiente de Teste)
+      const isAIStudio = (window as any).aistudio && (window as any).aistudio.hasSelectedApiKey;
+
+      if (envKey || processKey) {
+        setHasKey(true); // Se tiver chave configurada, libera o oráculo direto!
+      } else if (isAIStudio) {
+        // Se estiver no Studio, verifica se o usuário clicou no botão
+        (window as any).aistudio.hasSelectedApiKey().then((has: boolean) => setHasKey(has));
       }
     };
     checkKey();
   }, []);
 
   const handleActivateKey = async () => {
+    // Esse botão só funciona dentro do Google AI Studio
     if ((window as any).aistudio) {
       try {
         await (window as any).aistudio.openSelectKey();
-        // Optimistically assume success per documentation to avoid race conditions
         setHasKey(true);
       } catch (e) {
-        console.error("Failed to select key", e);
+        console.error("Falha ao selecionar chave", e);
       }
     } else {
-      alert("Ambiente de desenvolvimento não suporta seleção automática. Configure process.env.API_KEY.");
+      alert("Para o site funcionar na hospedagem, você precisa configurar a VITE_API_KEY no arquivo .env antes de fazer o build.");
     }
   };
 
@@ -61,26 +69,23 @@ const GeminiInsight: React.FC = () => {
         </div>
         <h2 className="text-3xl md:text-4xl font-serif mb-4 text-yellow-100">Oráculo Digital</h2>
         <p className="text-purple-200 mb-8 max-w-xl mx-auto">
-          Está sentindo alguma angústia ou dúvida? Escreva abaixo o que sente (ex: "ansiedade", "futuro incerto", "mágoa") e receba uma mensagem de luz guiada pela Inteligência Artificial.
+          Está sentindo alguma angústia ou dúvida? Escreva abaixo o que sente e receba uma mensagem de luz.
         </p>
 
         {!hasKey ? (
           <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 max-w-md mx-auto border border-white/20">
             <p className="text-purple-200 mb-6">
-              Para sintonizar a energia do oráculo, é necessário ativar a conexão segura.
+              O Oráculo precisa ser configurado.
             </p>
+            {/* Esse botão só aparece se não tiver chave configurada */}
             <button 
               onClick={handleActivateKey}
-              className="bg-yellow-500 hover:bg-yellow-400 text-purple-900 px-8 py-3 rounded-full font-bold transition-all transform hover:scale-105 shadow-lg flex items-center justify-center mx-auto"
+              className="bg-yellow-500 hover:bg-yellow-400 text-purple-900 px-8 py-3 rounded-full font-bold transition-all shadow-lg flex items-center justify-center mx-auto opacity-50 cursor-not-allowed"
+              title="Configure a VITE_API_KEY no seu projeto para ativar automaticamente."
             >
               <SparklesIcon className="w-5 h-5 mr-2" />
-              Ativar Conexão Espiritual
+              Aguardando Configuração...
             </button>
-            <p className="mt-4 text-xs text-purple-300 opacity-70">
-              Você precisará selecionar sua Chave API do Google (Gratuita).
-              <br />
-              <a href="https://ai.google.dev/gemini-api/docs/billing" target="_blank" rel="noreferrer" className="underline hover:text-white">Saiba mais sobre a API</a>
-            </p>
           </div>
         ) : (
           <>
