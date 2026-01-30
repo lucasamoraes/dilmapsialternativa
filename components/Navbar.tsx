@@ -110,6 +110,49 @@ const Navbar: React.FC<NavbarProps> = ({ lang, setLang }) => {
            <span className={`block w-6 h-0.5 ${scrolled ? 'bg-yellow-600' : 'bg-white'}`}></span>
         </button>
       </div>
+
+      {/* Mobile Menu */}
+      <div className={`lg:hidden absolute top-full left-0 w-full bg-white shadow-2xl transition-all duration-300 ease-in-out overflow-hidden ${mobileMenuOpen ? 'max-h-[80vh] opacity-100' : 'max-h-0 opacity-0'}`}>
+        <div className="flex flex-col p-6 space-y-4">
+            <button onClick={() => scrollToSection(SectionId.HOME)} className="text-left text-sm font-bold uppercase text-blue-900 tracking-widest py-2 border-b border-gray-100">
+              {t.home}
+            </button>
+            
+            <div className="py-2 border-b border-gray-100">
+              <span className="block text-xs font-bold text-yellow-600 uppercase tracking-widest mb-2">{t.services}</span>
+              <div className="pl-4 flex flex-col space-y-3">
+                <button onClick={() => scrollToSection(SectionId.MESA)} className="text-left text-sm font-medium text-gray-600">{t.mesa}</button>
+                <button onClick={() => scrollToSection(SectionId.CONVENCIONAL)} className="text-left text-sm font-medium text-gray-600">{t.therapy}</button>
+              </div>
+            </div>
+
+            {[
+              { id: SectionId.GROUPS, label: t.groups },
+              { id: SectionId.PACKAGES, label: t.packages },
+              { id: SectionId.CONTACT, label: t.contact },
+            ].map((item) => (
+              <button
+                key={item.id}
+                onClick={() => scrollToSection(item.id as SectionId)}
+                className="text-left text-sm font-bold uppercase text-blue-900 tracking-widest py-2 border-b border-gray-100"
+              >
+                {item.label}
+              </button>
+            ))}
+
+            <div className="flex items-center justify-center space-x-4 pt-4">
+               {['pt', 'fr', 'de'].map((l) => (
+                  <button
+                    key={l}
+                    onClick={() => { setLang(l as Language); setMobileMenuOpen(false); }}
+                    className={`text-xs font-bold uppercase px-4 py-2 rounded-lg transition-colors ${lang === l ? 'bg-blue-900 text-white' : 'bg-gray-100 text-gray-500'}`}
+                  >
+                    {l}
+                  </button>
+                ))}
+            </div>
+        </div>
+      </div>
     </nav>
   );
 };
