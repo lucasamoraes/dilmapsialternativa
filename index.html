@@ -11,24 +11,30 @@
     <style>
       body {
         font-family: 'Montserrat', sans-serif;
-        background-color: #fdfbf7;
-        color: #4a4a4a;
+        background-color: #f0f7ff;
+        color: #2d3748;
       }
       h1, h2, h3, h4, h5, h6 {
         font-family: 'Cormorant Garamond', serif;
       }
-      .gold-gradient {
-        background: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+      .gold-text {
+        color: #b38728;
       }
-      .bg-gold-gradient {
+      .bg-soft-blue {
+        background-color: #f0f7ff;
+      }
+      .bg-gold {
         background: linear-gradient(135deg, #bf953f, #b38728);
       }
-      .glass-card {
-        background: rgba(255, 255, 255, 0.7);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.5);
+      .border-gold {
+        border-color: #bf953f;
+      }
+      @keyframes fade-in-up {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .animate-fade-in-up {
+        animation: fade-in-up 0.8s ease-out forwards;
       }
     </style>
   <script type="importmap">

@@ -1,15 +1,17 @@
-export interface GroupSession {
-  id: string;
-  title: string;
-  description: string;
-  image: string;
-  schedule: string;
+export enum SectionId {
+  HOME = 'home',
+  ABOUT = 'about',
+  STORY = 'story',
+  MESA = 'mesa-quantionica',
+  CONVENCIONAL = 'psicologia-convencional',
+  GROUPS = 'grupos',
+  PACKAGES = 'pacotes',
+  TESTIMONIALS = 'depoimentos',
+  CONTACT = 'agendar',
+  YOUTUBE = 'youtube',
 }
 
-export interface CalendarSlot {
-  time: string;
-  available: boolean;
-}
+export type Language = 'pt' | 'fr' | 'de';
 
 export interface BookingForm {
   name: string;
@@ -18,12 +20,10 @@ export interface BookingForm {
   reason: string;
 }
 
-export enum SectionId {
-  HOME = 'home',
-  ABOUT = 'about',
-  MESA = 'mesa',
-  GROUPS = 'groups',
-  AI_INSIGHT = 'ai-insight',
-  TESTIMONIALS = 'testimonials',
-  CONTACT = 'contact'
+export interface GroupSession {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+  schedule: string;
 }

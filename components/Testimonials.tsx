@@ -27,7 +27,7 @@ const testimonials = [
 
 const Testimonials: React.FC = () => {
   return (
-    <section id={SectionId.TESTIMONIALS} className="py-24 bg-[#fdfbf7] relative overflow-hidden">
+    <section id={SectionId.TESTIMONIALS} className="py-24 bg-[#f0f7ff] relative overflow-hidden">
       {/* Decorative background element */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         <div className="absolute top-10 right-10 w-64 h-64 bg-yellow-100 rounded-full mix-blend-multiply filter blur-3xl opacity-40"></div>

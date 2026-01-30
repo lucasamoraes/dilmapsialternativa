@@ -33,7 +33,7 @@ const GroupTherapy: React.FC = () => {
   };
 
   return (
-    <section id={SectionId.GROUPS} className="py-20 bg-stone-100">
+    <section id={SectionId.GROUPS} className="py-20 bg-[#f0f7ff]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <span className="text-yellow-700 font-semibold tracking-widest text-sm uppercase">Comunidade de Cura</span>
